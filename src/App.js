@@ -1,7 +1,23 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { faker } from '@faker-js/faker';
+;
+
+function createRandomPosts() {
+  return {
+  title: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
+  body: faker.hacker.phrase()
+  }
+}
 
 function App() {
+  const [ posts , setPosts] =  useState(() => 
+  Array.from ({length: 30} , () => createRandomPosts())
+  )
+
+  function handleAddPost(post) {
+    setPosts((posts) => [post, ...posts]);
+  }
   return (
     <section>
       
@@ -28,10 +44,12 @@ function App() {
 
         <section>
           <ul>
-            <li>
-              <h3>name</h3>
-              <p>body</p>
-            </li>
+          {posts.map((post, i) => (
+        <li key={i}>
+          <h3>{post.title}</h3>
+          <p>{post.body}</p>
+        </li>
+      ))}
           </ul>
         </section>
 
