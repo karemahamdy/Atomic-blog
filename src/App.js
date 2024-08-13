@@ -19,10 +19,14 @@ function App() {
     setPosts((posts) => [post, ...posts]);
   }
 
+  function clearPosts() {
+    setPosts([])
+  }
+
   return (
     <section>
 
-      <Header />
+      <Header onclearPosts={clearPosts}/>
 
       <main>
         <Form onAddPost={handleAddPost} />
@@ -36,7 +40,7 @@ function App() {
   );
 }
 
-function Header() {
+function Header({onclearPosts}) {
   return (
     <header>
       <h1>
@@ -44,7 +48,7 @@ function Header() {
       </h1>
       <p>🚀 30 atomic posts found</p>
       <input placeholder="Search posts here"></input>
-      <button>Clear posts</button>
+      <button onClick={onclearPosts}>Clear posts</button>
     </header>
   )
 }
