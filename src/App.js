@@ -3,22 +3,58 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <section>
+      
+      <header>
+        <h1>
+          <span>⚛️</span>The Atomic Blog
+        </h1>
+        <p>🚀 30 atomic posts found</p>
+        <input placeholder="Search posts here"></input>
+        <button>Clear posts</button>
       </header>
-    </div>
+
+      <main>
+
+        <form>
+          <input
+            placeholder="Post title"
+          />
+          <textarea
+            placeholder="Post body"
+          />
+          <button>Add post</button>
+        </form>
+
+        <section>
+          <ul>
+            <li>
+              <h3>name</h3>
+              <p>body</p>
+            </li>
+          </ul>
+        </section>
+
+        <aside>
+          <h2>Post archive</h2>
+          <button>
+            Show archive posts
+          </button>
+          <ul>
+            <li>
+              <p>
+                <strong>title:</strong> body
+              </p>
+              <button>Add as new post</button>
+            </li>
+          </ul>
+        </aside>
+
+      </main>
+      
+      <footer>&copy; by The Atomic Blog ✌️</footer>
+
+    </section>
   );
 }
 
