@@ -18,6 +18,7 @@ function App() {
   function handleAddPost(post) {
     setPosts((posts) => [post, ...posts]);
   }
+
   return (
     <section>
       
@@ -32,15 +33,7 @@ function App() {
 
       <main>
 
-        <form>
-          <input
-            placeholder="Post title"
-          />
-          <textarea
-            placeholder="Post body"
-          />
-          <button>Add post</button>
-        </form>
+      <Form onAddPost={handleAddPost}/>
 
         <section>
           <ul>
@@ -76,4 +69,32 @@ function App() {
   );
 }
 
+
+function Form({ onAddPost }) {
+const [title, setTitle] = useState("")
+const [body, setBody] = useState("")
+
+function handleSubmit (e) {
+  e.preventDefault();
+  if (!body || !title) return;
+  onAddPost({title, body})
+  setTitle("")
+  setBody("")
+}
+  return (
+  <form onSubmit={handleSubmit}>
+          <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Post title"
+      />
+      <textarea
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        placeholder="Post body"
+      />
+          <button>Add post</button>
+        </form>
+  )
+}
 export default App;
