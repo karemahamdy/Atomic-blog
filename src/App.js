@@ -31,7 +31,7 @@ function App() {
       <main>
         <Form onAddPost={handleAddPost} />
         <List posts={posts} />
-        <Archive />
+        <Archive onAddPost={handleAddPost} />
       </main>
 
       <Footer />
@@ -97,6 +97,9 @@ function List({ posts }) {
 }
 
 function Archive() {
+  const [posts] = useState(() =>
+    Array.from({ length: 30 }, () => createRandomPosts())
+  );
   return (
     <aside>
       <h2>Post archive</h2>
@@ -104,13 +107,15 @@ function Archive() {
         Show archive posts
       </button>
       <ul>
-        <li>
-          <p>
-            <strong>title:</strong> body
-          </p>
-          <button>Add as new post</button>
-        </li>
-      </ul>
+          {posts.map((post, i) => (
+            <li key={i}>
+              <p>
+                <strong>{post.title}:</strong> {post.body}
+              </p>
+              <button >Add as new post</button>
+            </li>
+          ))}
+        </ul>
     </aside>
 
   )
