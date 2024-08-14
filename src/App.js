@@ -31,7 +31,7 @@ function App() {
       <main>
         <Form onAddPost={handleAddPost} />
         <List posts={posts} />
-        <Archive onAddPost={handleAddPost} />
+        <Archive onAddPost={handleAddPost}  />
       </main>
 
       <Footer />
@@ -96,26 +96,28 @@ function List({ posts }) {
   )
 }
 
-function Archive() {
+function Archive({onAddPost}) {
+  const [showArchive , setShowArchive] = useState(false)
   const [posts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPosts())
   );
   return (
     <aside>
       <h2>Post archive</h2>
-      <button>
-        Show archive posts
+      <button onClick={()=> (setShowArchive((s) => !s))}>
+      { showArchive ?  "Hide archive posts" : "Show archive posts" }
       </button>
-      <ul>
+    { showArchive && <ul>
           {posts.map((post, i) => (
             <li key={i}>
               <p>
                 <strong>{post.title}:</strong> {post.body}
               </p>
-              <button >Add as new post</button>
+              <button onClick={() => onAddPost(post)}>Add as new post</button>
             </li>
           ))}
         </ul>
+}
     </aside>
 
   )
