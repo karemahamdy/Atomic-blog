@@ -37,7 +37,8 @@ function App() {
       <Header
         onclearPosts={clearPosts}
         searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
+        setSearchQuery={setSearchQuery}  
+        posts={posts}
       />
 
       <main>
@@ -51,13 +52,13 @@ function App() {
   );
 }
 
-function Header({ onclearPosts, searchQuery, setSearchQuery }) {
+function Header({ onclearPosts, searchQuery, setSearchQuery, posts }) {
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
-      <p>🚀 {searchQuery ? 'Filtered' : '30'} atomic posts found</p>
+      <p>🚀 {posts.length} atomic posts found</p>
       <input
         placeholder="Search posts here"
         value={searchQuery}
