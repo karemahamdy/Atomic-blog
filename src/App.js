@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, createContext, useContext } from 'react';
 import './App.css';
 import { faker } from '@faker-js/faker';
+
+const PostContext = createContext();
 
 function createRandomPosts() {
   return {
@@ -33,26 +35,32 @@ function App() {
   }
 
   return (
-    <section>
-      <Header
-        onclearPosts={clearPosts}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}  
-        posts={posts}
-      />
-
-      <main>
-        <Form onAddPost={handleAddPost} />
-        <List posts={searchedPosts} />
-        <Archive onAddPost={handleAddPost} />
-      </main>
-
-      <Footer />
-    </section>
+    <PostContext.Provider
+      value={{
+        posts,
+        searchedPosts,
+        searchQuery,
+        setSearchQuery,
+        handleAddPost,
+        clearPosts,
+      }}
+    >
+      <section>
+        <Header />
+        <main>
+          <Form />
+          <List />
+          <Archive />
+        </main>
+        <Footer />
+      </section>
+    </PostContext.Provider>
   );
 }
 
-function Header({ onclearPosts, searchQuery, setSearchQuery, posts }) {
+function Header() {
+  const { posts, searchQuery, setSearchQuery, clearPosts } = useContext(PostContext);
+
   return (
     <header>
       <h1>
@@ -64,19 +72,20 @@ function Header({ onclearPosts, searchQuery, setSearchQuery, posts }) {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <button onClick={onclearPosts}>Clear posts</button>
+      <button onClick={clearPosts}>Clear posts</button>
     </header>
   );
 }
 
-function Form({ onAddPost }) {
+function Form() {
+  const { handleAddPost } = useContext(PostContext);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!body || !title) return;
-    onAddPost({ title, body });
+    handleAddPost({ title, body });
     setTitle('');
     setBody('');
   }
@@ -98,11 +107,13 @@ function Form({ onAddPost }) {
   );
 }
 
-function List({ posts }) {
+function List() {
+  const { searchedPosts } = useContext(PostContext);
+
   return (
     <section>
       <ul>
-        {posts.map((post, i) => (
+        {searchedPosts.map((post, i) => (
           <li key={i}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
@@ -113,11 +124,13 @@ function List({ posts }) {
   );
 }
 
-function Archive({ onAddPost }) {
+function Archive() {
+  const { handleAddPost } = useContext(PostContext);
   const [showArchive, setShowArchive] = useState(false);
   const [posts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPosts())
   );
+
   return (
     <aside>
       <h2>Post archive</h2>
@@ -131,7 +144,7 @@ function Archive({ onAddPost }) {
               <p>
                 <strong>{post.title}:</strong> {post.body}
               </p>
-              <button onClick={() => onAddPost(post)}>Add as new post</button>
+              <button onClick={() => handleAddPost(post)}>Add as new post</button>
             </li>
           ))}
         </ul>
